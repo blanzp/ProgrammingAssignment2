@@ -3,6 +3,7 @@
 ## if one was previously computed
 
 ## makeCacheMatrix: function to provide cache for matrix inverse
+##  e.g. x <- makeCacheMatrix(matrix(rnorm(100),5,5))
 
 makeCacheMatrix <- function(x = matrix()) {
     inv = NULL # initialize cached inverse to null
@@ -28,17 +29,22 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## cacheSolve: returns cached inverse of matrix if already computed
+##  e.g.
+##    x <- makeCacheMatrix(matrix(rnorm(100),5,5))
+##    x.cache <- cacheSolve(x)
 
 cacheSolve <- function(x) {
     
     # get the cached value
     x.inv <- x$getinv()
+    
+    # check if cache is valid
     if(!is.null(x.inv) ) {
         message("Returning cached inverse")
         return(x.inv)
     }
     
-    # not cached, compute and set
+    # inverse not cached, compute and set
     x.inv <- solve(x$get())
     x$setinv(x.inv)
     
